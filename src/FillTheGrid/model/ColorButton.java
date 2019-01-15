@@ -41,6 +41,11 @@ public class ColorButton extends Rectangle {
             boolean rightColor = colorsGrid.paintTopLeftCorner(color);
             if (rightColor) {
                 tryList.remove(tryList.size()-1);
+                if (colorsGrid.isGameWon()) {
+                    System.out.println("Win");
+                } else if (tryList.isEmpty()) {
+                    System.out.println("Lost");
+                }
             }
         });
 

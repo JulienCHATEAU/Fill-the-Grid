@@ -3,6 +3,7 @@ package FillTheGrid.controller;
 
 import FillTheGrid.model.ColorButton;
 import FillTheGrid.model.ColorsGrid;
+import FillTheGrid.model.TryEllipse;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -37,7 +38,7 @@ public class ControllerGame implements Initializable {
     public final static int COLOR_BUTTON_WIDTH = 50;
     public final static int COLOR_BUTTON_HEIGHT = 50;
 
-    public final static int TRY_COUNT = 15;
+    public final static int TRY_COUNT = 25;
 
 
     public final static int COLORS_GRID_WIDTH = 300;
@@ -48,7 +49,11 @@ public class ControllerGame implements Initializable {
     public final static int TRY_PIECE_WIDTH = 60;
     public final static int TRY_PIECE_HEIGHT = 25;
 
+    public final static Color[] COLORS = {Color.RED, Color.BLUE, Color.GREEN, Color.ORANGE, Color.GREY, Color.BLACK, Color.YELLOW, Color.WHITE};
+    public final static int USABLE_COLORS = 8;
+
     private List<Paint> colorList;
+    private List<Integer> chosenColorIndexes;
     private ObservableList<Ellipse> tryList;
 
 
@@ -68,7 +73,7 @@ public class ControllerGame implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.centerPane.setStyle("-fx-background-color: #a5a09f");
         this.topPane.setStyle("-fx-background-color: #a5a09f");
-        this.bottomPane.setStyle("-fx-background-color: #a7a2a1");
+        this.bottomPane.setStyle("-fx-background-color: #a5a09f");
 
         this.colorList = new ArrayList<>();
         this.tryList = FXCollections.observableArrayList();
@@ -85,23 +90,16 @@ public class ControllerGame implements Initializable {
                 }
             }
         });
+        this.chosenColorIndexes = new ArrayList<>();
         for (int i = 0; i < COLOR_COUNT; i++) {
             Paint randomColor = this.randomColor();
             this.colorList.add(randomColor);
         }
+        this.chosenColorIndexes.clear();
         this.colorsGrid = new ColorsGrid(centerPane, COLORS_GRID_WIDTH, COLORS_GRID_HEIGHT, COLORS_GRID_DIVISION, this.colorList);
 
         for (int i = 0; i < TRY_COUNT; i++) {
-            Ellipse tryPiece = new Ellipse();
-            tryPiece.centerXProperty().bind(this.colorsGrid.xProperty().divide(3));
-            tryPiece.centerYProperty().bind(this.colorsGrid.yProperty().add(this.colorsGrid.getHeight()).subtract(TRY_PIECE_HEIGHT/2).subtract(i*TRY_PIECE_HEIGHT/2));
-            tryPiece.setRadiusY(TRY_PIECE_HEIGHT/2);
-            tryPiece.setRadiusX(TRY_PIECE_WIDTH/2);
-            tryPiece.setStroke(Color.BLACK);
-            tryPiece.setStrokeWidth(2);
-            Random r = new Random();
-            int random = r.nextInt(70);
-            tryPiece.setFill(Color.rgb(random+100, random+100, random+100));
+            TryEllipse tryPiece = new TryEllipse(i, TRY_PIECE_WIDTH, TRY_PIECE_HEIGHT, this.colorsGrid);
             this.tryList.add(tryPiece);
         }
 
@@ -111,12 +109,33 @@ public class ControllerGame implements Initializable {
         }
     }
 
-    public Paint randomColor() {
+    public Color randomColor() {
         Random random = new Random();
-        int r = random.nextInt(256);
-        int g = random.nextInt(256);
-        int b = random.nextInt(256);
+        int colorIndex = -1;
+        while (colorIndex == -1) {
+            int randInt = random.nextInt(USABLE_COLORS);
+            if (!this.chosenColorIndexes.contains(randInt)) {
+                colorIndex = randInt;
+            }
+        }
+        this.chosenColorIndexes.add(colorIndex);
+        Color chosenColor = COLORS[colorIndex];
+        int r = random.nextInt(31) - 15 + (int)(chosenColor.getRed()*255);
+        r = this.setInRange(r, 0, 255);
+        int b = random.nextInt(31) - 15 + (int)(chosenColor.getBlue()*255);
+        b = this.setInRange(b, 0, 255);
+        int g = random.nextInt(31) - 15 + (int)(chosenColor.getGreen()*255);
+        g = this.setInRange(g, 0, 255);
         return Color.rgb(r, g, b);
+    }
+
+    public int setInRange(int number, int leftBound, int rightBound) {
+        if (number < leftBound) {
+            number = leftBound;
+        } else if (number > rightBound) {
+            number = rightBound;
+        }
+        return number;
     }
 
 }
