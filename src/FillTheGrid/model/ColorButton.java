@@ -52,13 +52,21 @@ public class ColorButton extends Rectangle {
         this.setOnMousePressed(event -> {
             this.setWidth(this.getWidth()-2);
             this.setHeight(this.getHeight()-2);
-            this.setOpacity(0.9);
+            this.setOpacity(1);
         });
 
         this.setOnMouseReleased(event -> {
             this.setWidth(this.getWidth()+2);
             this.setHeight(this.getHeight()+2);
-            this.setOpacity(0.70);
+            this.setOpacity(0.7);
+        });
+
+        this.setOnMouseEntered(event -> {
+            this.setOpacity(1);
+        });
+
+        this.setOnMouseExited(event -> {
+            this.setOpacity(0.7);
         });
     }
 

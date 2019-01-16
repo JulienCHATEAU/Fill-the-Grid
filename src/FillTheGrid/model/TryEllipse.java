@@ -9,10 +9,10 @@ public class TryEllipse extends Ellipse {
 
     public TryEllipse(int i, double width, double height, ColorsGrid colorsGrid) {
         this.centerXProperty().bind(colorsGrid.xProperty().divide(3));
-        this.centerYProperty().bind(colorsGrid.yProperty().add(colorsGrid.getHeight()).subtract(height/2).subtract(i*height/2));
+        this.centerYProperty().bind(colorsGrid.yProperty().add(colorsGrid.getHeight()).subtract(i*height/2));
         this.setRadiusX(width/2);
         this.setRadiusY(height/2);
-        this.setStroke(Color.BLACK);
+        this.setStroke(Color.web("0x414242"));
         this.setStrokeWidth(2);
         Random r = new Random();
         int random = r.nextInt(70);

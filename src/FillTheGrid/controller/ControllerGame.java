@@ -9,6 +9,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -71,9 +72,10 @@ public class ControllerGame implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.centerPane.setStyle("-fx-background-color: #a5a09f");
-        this.topPane.setStyle("-fx-background-color: #a5a09f");
-        this.bottomPane.setStyle("-fx-background-color: #a5a09f");
+        this.centerPane.setStyle("-fx-background-color: #a5a09f; -fx-background-radius: 15");
+        this.topPane.setStyle("-fx-background-color: #a5a09f;  -fx-background-radius: 15");
+        this.bottomPane.setStyle("-fx-background-color: #a5a09f;  -fx-background-radius: 15");
+        this.borderPane.setStyle("-fx-background-color: #a5a09f; -fx-border-color: black; -fx-border-width: 3px; -fx-border-radius: 15; -fx-background-radius: 15");
 
         this.colorList = new ArrayList<>();
         this.tryList = FXCollections.observableArrayList();

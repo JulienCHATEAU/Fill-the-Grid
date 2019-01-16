@@ -67,8 +67,8 @@ public class ColorsGrid extends Rectangle {
         int i = 0;
         int j = 0;
         Paint currentColor = this.content[0][0].getFill();
-        while (i<this.rectCountPerLine-1 && won) {
-            while (j<this.rectCountPerLine-1 && won) {
+        while (i<this.rectCountPerLine && won) {
+            while (j<this.rectCountPerLine && won) {
                 if (!this.content[i][j].getFill().equals(currentColor)) {
                     won = false;
                 } else {
